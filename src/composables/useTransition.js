@@ -86,6 +86,24 @@ export function useTransition(options) {
     // 应用默认值
     transition.style.left = '50%';
     transition.style.top = '50%';
+
+    // 重置所有相关样式，避免残留样式影响
+    Object.assign(transition.style, {
+      display: 'none',
+      width: '0px',
+      height: '0px',
+      borderRadius: '50%',
+      backgroundColor: '',
+      transform: 'translate(-50%, -50%)',
+      opacity: '1',
+      transition: 'none',
+      webkitTransform: 'translate(-50%, -50%)',
+      webkitTransition: 'none',
+      left: '50%',
+      top: '50%'
+    });
+    // 强制重绘
+    transition.offsetWidth;
   };
 
   // 使用透明度淡出并清除
@@ -101,29 +119,22 @@ export function useTransition(options) {
     const transition = pageTransition.value;
 
     // 设置透明度过渡
-    transition.style.transition = 'opacity 1s ease, background-color 1s ease';
+    transition.style.transition = 'opacity 1s ease';
+    transition.style.webkitTransition = 'opacity 1s ease';
 
-    // 开始淡出 - 先将颜色变为透明
+    // 开始淡出
     transition.style.opacity = '0';
-    transition.style.backgroundColor = 'rgba(0, 0, 0, 0)';
 
     // 动画结束后移除元素
     setTimeout(() => {
       forceCleanTransition();
     }, 1000);
   };
-
+  // 执行页面过渡动画和跳转
   // 执行页面过渡动画和跳转
   const transitionToPage = (url, serviceType, event) => {
-    // 低性能设备直接跳转
+    // 低性能设备直接跳转 - 保持不变
     if (isLowPerformanceDevice()) {
-      window.location.href = url;
-      return;
-    }
-
-    // 对于特定服务或链接，直接跳转不使用过渡效果
-    if ((url.startsWith('mailto:') && !useTransitionForMail) ||
-      (serviceType === 'minecraft' && !useTransitionForMinecraft)) {
       window.location.href = url;
       return;
     }
@@ -132,9 +143,9 @@ export function useTransition(options) {
 
     // 强制清除任何可能残留的过渡状态
     forceCleanTransition();
-    shouldCancelOnMovement.value = false; // 重置标记
+    shouldCancelOnMovement.value = false;
 
-    // 如果已有一个正在进行的跳转，清除它
+    // 清除现有的跳转计时器
     if (currentTransitionTimeout.value) {
       clearTimeout(currentTransitionTimeout.value);
       currentTransitionTimeout.value = null;
@@ -143,7 +154,7 @@ export function useTransition(options) {
     // 记录跳转开始时间
     navigationStartTime.value = Date.now();
 
-    // 获取点击/触摸位置 (增强对触摸事件的支持)
+    // 获取点击/触摸位置
     let x, y;
 
     if (event) {
@@ -157,12 +168,12 @@ export function useTransition(options) {
         x = event.clientX;
         y = event.clientY;
       } else {
-        // 默认使用屏幕中心
+        // 默认使用视口中心
         x = window.innerWidth / 2;
         y = window.innerHeight / 2;
       }
     } else {
-      // 如果没有事件对象，使用屏幕中心
+      // 如果没有事件对象，使用视口中心
       x = window.innerWidth / 2;
       y = window.innerHeight / 2;
     }
@@ -171,25 +182,59 @@ export function useTransition(options) {
     const transition = pageTransition.value;
     const color = getColorForService(serviceType);
 
-    transition.style.backgroundColor = color;
-    transition.style.left = `${x}px`;
-    transition.style.top = `${y}px`;
-    transition.className = 'page-transition' + (isDarkTheme.value ? ' dark-theme' : '');
-    transition.style.display = 'block';
+    // 重置样式，确保没有残留样式影响
+    Object.assign(transition.style, {
+      display: 'block',
+      backgroundColor: color,
+      left: `${x}px`,
+      top: `${y}px`,
+      width: '0px',
+      height: '0px',
+      borderRadius: '50%',
+      transform: 'translate(-50%, -50%)',
+      opacity: '1',
+      transition: 'none',
+      position: 'fixed',
+      zIndex: '9999',
+      pointerEvents: 'none'
+    });
 
-    // 增强移动设备的动画性能
-    if (isMobileDevice()) {
-      // 在移动设备上使用hardware acceleration
-      transition.style.willChange = 'transform, opacity, width, height';
-      transition.style.webkitBackfaceVisibility = 'hidden';
-    }
+    // 设置类名，确保主题正确
+    transition.className = 'page-transition' + (isDarkTheme.value ? ' dark-theme' : '');
+
+    // 计算从点击位置到屏幕四个角的最大距离，确保覆盖整个屏幕
+    const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    // 计算到四个角的距离
+    const distToTopLeft = Math.sqrt(x * x + y * y);
+    const distToTopRight = Math.sqrt((viewportWidth - x) * (viewportWidth - x) + y * y);
+    const distToBottomLeft = Math.sqrt(x * x + (viewportHeight - y) * (viewportHeight - y));
+    const distToBottomRight = Math.sqrt(
+      (viewportWidth - x) * (viewportWidth - x) +
+      (viewportHeight - y) * (viewportHeight - y)
+    );
+
+    // 最大距离 * 2.5 确保全屏覆盖
+    const maxDist = Math.max(distToTopLeft, distToTopRight, distToBottomLeft, distToBottomRight) * 2.5;
 
     // 执行动画序列
+    // 强制重绘以确保样式变化正确应用
+    transition.offsetWidth;
+
     requestAnimationFrame(() => {
       transition.classList.add('lamp-show');
 
       setTimeout(() => {
-        transition.classList.add('expand');
+        // 应用展开效果前，设置最终尺寸
+        transition.style.transitionProperty = 'width, height, border-radius, background-color, box-shadow';
+        transition.style.transitionDuration = '0.6s';
+        transition.style.transitionTimingFunction = 'cubic-bezier(0.86, 0, 0.07, 1)';
+
+        // 覆盖之前的样式，使用绝对值确保完全覆盖
+        transition.style.width = `${maxDist}px`;
+        transition.style.height = `${maxDist}px`;
+        transition.style.borderRadius = '0';
 
         // 设置跳转执行
         const jumpTimeout = setTimeout(() => {
@@ -203,15 +248,11 @@ export function useTransition(options) {
 
         // 设置超时检测 - 2秒后激活用户移动检测
         setTimeout(() => {
-          // 如果还在原页面且超过了2秒
           if (Date.now() - navigationStartTime.value >= 2000 &&
             currentTransitionTimeout.value === jumpTimeout) {
-
-            // 标记为应该在用户移动时取消
             shouldCancelOnMovement.value = true;
           }
-        }, 2000); // 2秒后检查
-
+        }, 2000);
       }, 400);
     });
   };

@@ -41,22 +41,37 @@
 
 
 /* 优化移动设备上的过渡动画 */
+/* 移动端特殊处理 */
 @media (max-width: 768px) {
+  .page-transition {
+    transform-origin: center center;
+    -webkit-transform-origin: center center;
+  }
+  
+  /* 扩展状态 - 使用更大尺寸和固定值确保覆盖 */
   .page-transition.lamp-show {
+    /* 移动端稍小以提高性能 */
     width: 50px;
-    /* 稍微小一点，以提高性能 */
     height: 70px;
   }
-
-  .page-transition.expand {
-    transition-duration: 0.5s;
-    /* 略微加快动画速度 */
+  
+  /* 特别针对iOS处理 */
+  @supports (-webkit-touch-callout: none) {
+    .page-transition {
+      /* iOS特定修复 */
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-perspective: 1000;
+      perspective: 1000;
+    }
   }
+}
 
-  /* 减少阴影复杂度以提高性能 */
-  .page-transition.lamp-show {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  }
+/* 淡出效果 */
+.page-transition.fade-out {
+  transition: opacity 1s ease;
+  -webkit-transition: opacity 1s ease;
+  opacity: 0 !important;
 }
 
 /* 添加触摸设备特定优化 */

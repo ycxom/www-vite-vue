@@ -7,12 +7,11 @@
   z-index: 9999;
   display: none;
   pointer-events: none;
-  transform: translate(-50%, -50%);
-  will-change: transform, opacity, width, height, background-color;
-  opacity: 1;
+  will-change: transform, width, height, border-radius, background-color;
   background-color: #ffffff;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-  transition: opacity 1s ease, background-color 1s ease;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }
 
 .page-transition.dark-theme {
@@ -25,13 +24,12 @@
   height: 80px;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.8);
-  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    border-radius 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    opacity 1s ease,
-    background-color 1s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation: rotate-and-glow-light 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+  -webkit-animation: rotate-and-glow-light 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
 }
+
 
 .page-transition.dark-theme.lamp-show {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.1);
