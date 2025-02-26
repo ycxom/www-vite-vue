@@ -11,7 +11,7 @@ export function useServices() {
     'qq': { light: '#1aad19', dark: '#159314' },
     'mail': { light: '#4285f4', dark: '#3366cc' }
   };
-  
+
   // 服务配置
   const services = ref([
     {
@@ -40,7 +40,8 @@ export function useServices() {
       name: 'Minecraft',
       description: 'mc.ycxom.top',
       url: 'minecraft://connect/mc.ycxom.top',
-      icon: 'minecraft'
+      icon: 'minecraft',
+      noTransition: true // 不使用过渡效果
     },
     {
       id: 'cncnet',
@@ -50,16 +51,16 @@ export function useServices() {
       icon: 'cncnet'
     }
   ]);
-  
+
   const serviceStatus = ref({});
-  
+
   // 检查服务状态
   const checkServiceStatus = () => {
     services.value.forEach(service => {
       serviceStatus.value[service.id] = Math.random() > 0.2;
     });
   };
-  
+
   // 复制到剪贴板函数
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text)
@@ -69,47 +70,52 @@ export function useServices() {
         showToast('复制失败，请手动复制');
       });
   };
-  
+
   // 显示提示条
   const showToast = (message) => {
     const toast = document.createElement('div');
     toast.className = 'toast-message';
     toast.textContent = message;
     document.body.appendChild(toast);
-    
+
     requestAnimationFrame(() => {
       toast.classList.add('show');
-      
+
       setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => document.body.removeChild(toast), 300);
       }, 3000);
     });
   };
-  
+
   onMounted(() => {
     // 检查服务状态
     checkServiceStatus();
     const statusInterval = setInterval(checkServiceStatus, 60000);
-    
+
     // 检测移动设备
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile) {
       const minecraftService = services.value.find(s => s.id === 'minecraft');
       if (minecraftService) {
-        minecraftService.url = '#';
-        minecraftService.isCopyOnly = true;
-        minecraftService.copyValue = 'mc.ycxom.top';
-        minecraftService.description = 'Tap to copy';
+        if (isAndroid) {
+          // Android 设备保持原始链接，以便直接打开 Minecraft
+          minecraftService.description = 'Tap to open MC';
+        } else {
+          minecraftService.url = '#';
+          minecraftService.isCopyOnly = true;
+          minecraftService.copyValue = 'mc.ycxom.top';
+          minecraftService.description = 'Tap to copy';
+        }
       }
     }
-    
+
     // 组件卸载时清理
     onUnmounted(() => {
       clearInterval(statusInterval);
     });
   });
-  
+
   return {
     services,
     serviceStatus,

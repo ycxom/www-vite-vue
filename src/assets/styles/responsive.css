@@ -1,112 +1,145 @@
 /* 响应式设计样式 */
 @media (max-width: 992px) {
-    .main-content {
-      flex-direction: column-reverse;
-      justify-content: flex-start;
-      padding-top: 80px;
-      padding-bottom: 80px;
-    }
-    
-    .logo-section {
-      margin-bottom: 2rem;
-    }
-    
-    .text-section {
-      width: 100%;
-      max-width: none;
-      padding-right: 0;
-      text-align: center;
-    }
-    
-    .services-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .services-title {
-      text-align: center;
-    }
-    
-    .site-title {
-      font-size: 3rem;
-    }
-    
-    .site-subtitle {
-      font-size: 1.8rem;
-    }
-    
-    .contact-buttons {
-      justify-content: center;
-    }
+  .main-content {
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .logo-section {
+    margin-bottom: 2rem;
+  }
+
+  .text-section {
+    width: 100%;
+    max-width: none;
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .services-title {
+    text-align: center;
+  }
+
+  .site-title {
+    font-size: 3rem;
+  }
+
+  .site-subtitle {
+    font-size: 1.8rem;
+  }
+
+  .contact-buttons {
+    justify-content: center;
+  }
+}
+
+
+/* 优化移动设备上的过渡动画 */
+@media (max-width: 768px) {
+  .page-transition.lamp-show {
+    width: 50px;
+    /* 稍微小一点，以提高性能 */
+    height: 70px;
+  }
+
+  .page-transition.expand {
+    transition-duration: 0.5s;
+    /* 略微加快动画速度 */
+  }
+
+  /* 减少阴影复杂度以提高性能 */
+  .page-transition.lamp-show {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* 添加触摸设备特定优化 */
+@media (pointer: coarse) {
+  .service-card {
+    padding: 0.8rem;
+    /* 更大的点击区域 */
   }
   
-  @media (max-width: 576px) {
-    .site-header {
-      padding: 1rem;
-    }
-    
-    .main-content {
-      padding: 80px 1rem 100px;
-    }
-    
-    .services-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .site-title {
-      font-size: 2.5rem;
-    }
-    
-    .site-subtitle {
-      font-size: 1.5rem;
-    }
-    
-    .site-description {
-      font-size: 1.2rem;
-    }
-    
-    .contact-buttons {
-      flex-direction: column;
-      width: 100%;
-      max-width: 250px;
-      margin: 0 auto;
-    }
-    
-    .logo-section {
-      width: 80%;
-    }
+  .contact-button {
+    padding: 0.8rem 1.7rem;
+    /* 更大的点击区域 */
   }
-  
-  /* 暗黑模式 */
-  @media (prefers-color-scheme: dark) {
-    .service-card {
-      background-color: rgba(30, 30, 40, 0.6);
-    }
-    
-    .service-card:hover {
-      background-color: rgba(40, 40, 55, 0.8);
-    }
+}
+
+@media (max-width: 576px) {
+  .site-header {
+    padding: 1rem;
   }
-  
-  /* 减少动画 */
-  @media (prefers-reduced-motion: reduce) {
-    .service-card,
-    .contact-button,
-    .icon-link,
-    .logo-small img {
-      transition: none;
-    }
-    
-    .service-card:hover,
-    .contact-button:hover {
-      transform: none;
-    }
-    
-    .service-card::before,
-    .contact-button::before {
-      display: none;
-    }
-    
-    .status-indicator {
-      animation: none;
-    }
+
+  .main-content {
+    padding: 80px 1rem 100px;
   }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .site-title {
+    font-size: 2.5rem;
+  }
+
+  .site-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .site-description {
+    font-size: 1.2rem;
+  }
+
+  .contact-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  .logo-section {
+    width: 80%;
+  }
+}
+/* 暗黑模式 */
+@media (prefers-color-scheme: dark) {
+  .service-card {
+    background-color: rgba(30, 30, 40, 0.6);
+  }
+
+  .service-card:hover {
+    background-color: rgba(40, 40, 55, 0.8);
+  }
+}
+
+/* 减少动画 */
+@media (prefers-reduced-motion: reduce) {
+
+  .service-card,
+  .contact-button,
+  .icon-link,
+  .logo-small img {
+    transition: none;
+  }
+
+  .service-card:hover,
+  .contact-button:hover {
+    transform: none;
+  }
+
+  .service-card::before,
+  .contact-button::before {
+    display: none;
+  }
+
+  .status-indicator {
+    animation: none;
+  }
+}
