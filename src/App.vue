@@ -28,13 +28,13 @@
       <div class="main-content">
         <div class="text-section">
           <h1 class="site-title">YCXOM</h1>
-          <h2 class="site-subtitle">A small website for YCXOM.</h2>
-          <p class="site-description">Want to contact me?</p>
+          <h2 class="site-subtitle">YCXOM’s homepage.</h2>
+          <p class="site-description">联系方式 | Contact information | 連絡先</p>
           <div class="contact-buttons">
-            <a href="#" @click.prevent="handleContactClick($event, 'qq', '你的QQ号')" class="contact-button qq">
+            <a href="https://qm.qq.com/q/TLckIaJGWk" @click.prevent="handleContactClick($event, 'qq', 'https://qm.qq.com/q/TLckIaJGWk')" class="contact-button qq">
               <span>QQ</span>
             </a>
-            <a href="mailto:your@email.com" @click.prevent="handleContactClick($event, 'mail', 'your@email.com')"
+            <a href="mailto:master@ycxom.top" @click.prevent="handleContactClick($event, 'mail', 'master@ycxom.top')"
               class="contact-button mail">
               <span>Mail</span>
             </a>

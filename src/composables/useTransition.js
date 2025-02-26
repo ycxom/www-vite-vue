@@ -182,7 +182,8 @@ export function useTransition(options) {
   // 处理联系按钮点击
   const handleContactClick = (event, type, value) => {
     if (type === 'qq') {
-      copyToClipboard(value);
+      // copyToClipboard(value); 发现快捷链接，就不复制qq了
+      transitionToPage(`${value}`, type, event);
       return;
     }
     

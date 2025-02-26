@@ -2,9 +2,8 @@
     <footer class="site-footer">
       <div class="footer-content">
         <div class="footer-text">
-          <p>基于 MIT 许可证发布</p>
           <p>版权所有 © {{ currentYear }} {{ owner }}</p>
-          <!-- <p v-if="icpNumber">鄂ICP备{{ icpNumber }}号</p> -->
+          <!-- <p v-if="icpNumber">ICP备{{ icpNumber }}号</p> -->
         </div>
       </div>
     </footer>
@@ -16,11 +15,11 @@
   const props = defineProps({
     owner: {
       type: String,
-      default: 'Torther'
+      default: 'YCXOM'
     },
     icpNumber: {
       type: String,
-      default: '202101783'
+      default: '000000000'
     }
   });
   

@@ -18,35 +18,35 @@ export function useServices() {
       id: 'jellyfin',
       name: 'Jellyfin',
       description: 'Media Streaming',
-      url: 'https://jellyfin.yourdomain.com',
+      url: 'https://ai.ycxom.top:8096',
       icon: 'jellyfin'
     },
     {
       id: 'blog',
       name: 'Blog',
       description: 'My Thoughts',
-      url: 'https://blog.yourdomain.com',
+      url: 'https://blog.ycxom.top',
       icon: 'blog'
     },
     {
       id: 'alist',
       name: 'Alist',
       description: 'File Sharing',
-      url: 'https://alist.yourdomain.com',
+      url: 'https://pan.ycxom.top',
       icon: 'alist'
     },
     {
       id: 'minecraft',
       name: 'Minecraft',
-      description: 'mc.yourdomain.com',
-      url: 'minecraft://connect/mc.yourdomain.com:25565',
+      description: 'mc.ycxom.top',
+      url: 'minecraft://connect/mc.ycxom.top',
       icon: 'minecraft'
     },
     {
       id: 'cncnet',
       name: 'CNCNet',
-      description: 'Gaming Server',
-      url: 'https://cncnet.yourdomain.com',
+      description: 'CNCNet Server',
+      url: 'https://cncnet.org/status',
       icon: 'cncnet'
     }
   ]);
@@ -99,7 +99,7 @@ export function useServices() {
       if (minecraftService) {
         minecraftService.url = '#';
         minecraftService.isCopyOnly = true;
-        minecraftService.copyValue = 'mc.yourdomain.com:25565';
+        minecraftService.copyValue = 'mc.ycxom.top';
         minecraftService.description = 'Tap to copy';
       }
     }
