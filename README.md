@@ -19,3 +19,11 @@ You can deploy your new Vite project with a single command from your terminal us
 ```shell
 $ vercel
 ```
+
+----
+主力，来自强大的Claude！
+- 本地测试环境
+```
+pnpm i
+pnpm run dev
+```
