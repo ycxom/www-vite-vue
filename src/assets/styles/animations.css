@@ -1,55 +1,76 @@
 /* 动画定义 */
 @keyframes pulse-red {
-    0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.5); }
-    70% { box-shadow: 0 0 0 5px rgba(244, 67, 54, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.5);
   }
-  
-  @keyframes pulse-green {
-    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5); }
-    70% { box-shadow: 0 0 0 5px rgba(76, 175, 80, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+
+  70% {
+    box-shadow: 0 0 0 5px rgba(244, 67, 54, 0);
   }
-  
-  @keyframes ripple {
-    0% {
-      transform: scale(0, 0) translate(-50%, -50%);
-      opacity: 0.5;
-    }
-    100% {
-      transform: scale(20, 20) translate(-50%, -50%);
-      opacity: 0;
-    }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
   }
-  
-  @keyframes rotate-and-glow-light {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg) scale(0);
-      opacity: 0;
-      filter: brightness(100%) contrast(100%);
-    }
-    50% {
-      filter: brightness(120%) contrast(110%);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(720deg) scale(1);
-      opacity: 1;
-      filter: brightness(110%) contrast(105%);
-    }
+}
+
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5);
   }
-  
-  @keyframes rotate-and-glow-dark {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg) scale(0);
-      opacity: 0;
-      filter: brightness(40%) contrast(120%);
-    }
-    50% {
-      filter: brightness(50%) contrast(130%);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(720deg) scale(1);
-      opacity: 1;
-      filter: brightness(45%) contrast(125%);
-    }
+
+  70% {
+    box-shadow: 0 0 0 5px rgba(76, 175, 80, 0);
   }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0) translate(-50%, -50%);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(20, 20) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes rotate-and-glow-light {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0);
+    opacity: 0;
+    filter: brightness(100%) contrast(100%);
+  }
+
+  50% {
+    filter: brightness(120%) contrast(110%);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(720deg) scale(1);
+    opacity: 1;
+    filter: brightness(110%) contrast(105%);
+  }
+}
+
+@keyframes rotate-and-glow-dark {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0);
+    opacity: 0;
+    filter: brightness(40%) contrast(120%);
+  }
+
+  50% {
+    filter: brightness(50%) contrast(130%);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(720deg) scale(1);
+    opacity: 1;
+    filter: brightness(45%) contrast(125%);
+  }
+}

@@ -1,54 +1,54 @@
 /* 页面过渡效果样式 */
 .page-transition {
-    position: fixed;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    z-index: 9999;
-    display: none;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    will-change: transform, opacity, width, height, background-color;
-    opacity: 1;
-    background-color: #ffffff;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-    transition: opacity 1s ease, background-color 1s ease;
-  }
-  
-  .page-transition.dark-theme {
-    background-color: #121212;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-  }
-  
-  .page-transition.lamp-show {
-    width: 60px;
-    height: 80px;
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.8);
-    transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-      height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-      border-radius 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-      opacity 1s ease,
-      background-color 1s ease;
-    animation: rotate-and-glow-light 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-  }
-  
-  .page-transition.dark-theme.lamp-show {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.1);
-    animation: rotate-and-glow-dark 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-  }
-  
-  .page-transition.expand {
-    width: 300vw;
-    height: 300vh;
-    border-radius: 0;
-    transition: width 0.6s cubic-bezier(0.86, 0, 0.07, 1),
-      height 0.6s cubic-bezier(0.86, 0, 0.07, 1),
-      border-radius 0.6s cubic-bezier(0.86, 0, 0.07, 1),
-      opacity 1s ease,
-      background-color 1s ease;
-  }
-  
-  .page-transition.dark-theme.expand {
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(50, 50, 50, 0.8);
-  }
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  z-index: 9999;
+  display: none;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity, width, height, background-color;
+  opacity: 1;
+  background-color: #ffffff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  transition: opacity 1s ease, background-color 1s ease;
+}
+
+.page-transition.dark-theme {
+  background-color: #121212;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.page-transition.lamp-show {
+  width: 60px;
+  height: 80px;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.8);
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-radius 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 1s ease,
+    background-color 1s ease;
+  animation: rotate-and-glow-light 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+}
+
+.page-transition.dark-theme.lamp-show {
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.1);
+  animation: rotate-and-glow-dark 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+}
+
+.page-transition.expand {
+  width: 300vw;
+  height: 300vh;
+  border-radius: 0;
+  transition: width 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+    height 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+    border-radius 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+    opacity 1s ease,
+    background-color 1s ease;
+}
+
+.page-transition.dark-theme.expand {
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(50, 50, 50, 0.8);
+}

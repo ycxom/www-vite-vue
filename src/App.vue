@@ -18,11 +18,11 @@
         </a>
       </div>
     </header>
-    
+
     <!-- 点阵图案 -->
     <DotPattern :dotSize="2" dotColor="rgba(255, 255, 255, 0.3)" :spacing="20" :fadeDistance="100" :zIndex="2"
       :mouseRadius="120" :effectIntensity="0.9" />
-    
+
     <!-- 主要内容区 -->
     <div class="scrollable-container">
       <div class="main-content">
@@ -31,7 +31,9 @@
           <h2 class="site-subtitle">YCXOM’s homepage.</h2>
           <p class="site-description">联系方式 | Contact information | 連絡先</p>
           <div class="contact-buttons">
-            <a href="https://qm.qq.com/q/TLckIaJGWk" @click.prevent="handleContactClick($event, 'qq', 'https://qm.qq.com/q/TLckIaJGWk')" class="contact-button qq">
+            <a href="https://qm.qq.com/q/TLckIaJGWk"
+              @click.prevent="handleContactClick($event, 'qq', 'https://qm.qq.com/q/TLckIaJGWk')"
+              class="contact-button qq">
               <span>QQ</span>
             </a>
             <a href="mailto:master@ycxom.top" @click.prevent="handleContactClick($event, 'mail', 'master@ycxom.top')"
@@ -39,7 +41,7 @@
               <span>Mail</span>
             </a>
           </div>
-          
+
           <!-- 添加服务按钮区域 -->
           <div class="services-section">
             <h3 class="services-title">My Services</h3>
@@ -60,11 +62,11 @@
           <LogoGlow :logoSrc="logoSource" width="300px" glowColor="rgba(255, 192, 203, 0.5)" glowSize="60px" />
         </div>
       </div>
-      
+
       <!-- 页脚 -->
       <Footer class="footer" owner="YCXOM" icpNumber="2021017838" />
     </div>
-    
+
     <!-- 页面过渡效果组件 -->
     <div class="page-transition" ref="pageTransition" :class="{ 'dark-theme': isDarkTheme }"></div>
   </VideoBackground>
@@ -99,22 +101,22 @@ const logoSource = ref(logoImage);
 const { isDarkTheme } = useTheme();
 
 // 使用服务状态逻辑
-const { 
-  services, 
+const {
+  services,
   serviceStatus,
   copyToClipboard,
   showToast
 } = useServices();
 
 // 使用页面过渡逻辑
-const { 
-  pageTransition, 
+const {
+  pageTransition,
   transitionToPage,
   handleServiceClick,
   handleContactClick
-} = useTransition({ 
-  isDarkTheme, 
-  copyToClipboard, 
+} = useTransition({
+  isDarkTheme,
+  copyToClipboard,
   showToast
 });
 </script>

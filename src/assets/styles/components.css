@@ -1,296 +1,310 @@
 /* 站点标题样式 */
 .site-title {
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: white;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-  }
-  
-  .site-subtitle {
-    font-size: 2.5rem;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    color: rgba(255, 255, 255, 0.9);
-  }
-  
-  .site-description {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-  }
-  
-  /* 顶部导航 */
-  .site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
-    z-index: 20;
-    backdrop-filter: blur(5px);
-    background-color: rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
-  }
-  
-  .site-header:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-  
-  .logo-small {
-    height: 30px;
-  }
-  
-  .logo-small img {
-    height: 100%;
-    transition: transform 0.3s;
-  }
-  
-  .logo-small:hover img {
-    transform: scale(1.1);
-  }
-  
-  .header-icons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .icon-link {
-    color: rgba(255, 255, 255, 0.7);
-    transition: all 0.3s;
-    padding: 5px;
-    border-radius: 50%;
-  }
-  
-  .icon-link:hover {
-    color: white;
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-  }
-  
-  /* 联系按钮 */
-  .contact-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .contact-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.7rem 1.5rem;
-    border-radius: 2rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    position: relative;
-    z-index: 10;
-    overflow: hidden;
-  }
-  
-  .contact-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.7s;
-    z-index: -1;
-  }
-  
-  .contact-button:hover::before {
-    left: 100%;
-  }
-  
-  .contact-button.qq {
-    background-color: #1aad19;
-    color: white;
-  }
-  
-  .contact-button.mail {
-    background-color: transparent;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-  }
-  
-  .contact-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .contact-button:active {
-    transform: scale(0.98);
-  }
-  
-  .contact-button.qq:hover {
-    background-color: #129611;
-  }
-  
-  .contact-button.mail:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: white;
-  }
-  
-  .contact-button span {
-    position: relative;
-    z-index: 2;
-  }
-  
-  /* 服务区域 */
-  .services-section {
-    margin-top: 2.5rem;
-    width: 100%;
-  }
-  
-  .services-title {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 1rem;
-    opacity: 0.9;
-    font-weight: 500;
-  }
-  
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 1rem;
-    width: 100%;
-  }
-  
-  .service-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-    overflow: hidden;
-  }
-  
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.7s;
-    z-index: -1;
-  }
-  
-  .service-card:hover::before {
-    left: 100%;
-  }
-  
-  .service-card:hover {
-    transform: translateY(-5px);
-    background-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .service-card:active {
-    transform: scale(0.95);
-  }
-  
-  .service-icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  
-  .service-card:hover .service-icon {
-    transform: scale(1.15);
-  }
-  
-  .service-card:active .service-icon {
-    transform: scale(0.9);
-  }
-  
-  .service-icon svg {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .service-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: white;
-    margin-bottom: 0.25rem;
-  }
-  
-  .service-description {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  /* 服务颜色 */
-  .service-icon.jellyfin { color: #00a4dc; }
-  .service-icon.blog { color: #ff7eb9; }
-  .service-icon.alist { color: #42b983; }
-  .service-icon.minecraft { color: #97c040; }
-  .service-icon.cncnet { color: #ff5722; }
-  
-  /* 状态指示器 */
-  .status-indicator {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #f44336;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 0 rgba(244, 67, 54, 0.5);
-    animation: pulse-red 2s infinite;
-  }
-  
-  .status-indicator.online {
-    background-color: #4caf50;
-    animation: pulse-green 2s infinite;
-  }
-  
-  /* Toast消息 */
-  .toast-message {
-    position: fixed;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%) translateY(100px);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    z-index: 1000;
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  .toast-message.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.site-subtitle {
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.site-description {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+/* 顶部导航 */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  z-index: 20;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.site-header:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.logo-small {
+  height: 30px;
+}
+
+.logo-small img {
+  height: 100%;
+  transition: transform 0.3s;
+}
+
+.logo-small:hover img {
+  transform: scale(1.1);
+}
+
+.header-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.icon-link {
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.icon-link:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* 联系按钮 */
+.contact-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.contact-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.contact-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s;
+  z-index: -1;
+}
+
+.contact-button:hover::before {
+  left: 100%;
+}
+
+.contact-button.qq {
+  background-color: #1aad19;
+  color: white;
+}
+
+.contact-button.mail {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.contact-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.contact-button:active {
+  transform: scale(0.98);
+}
+
+.contact-button.qq:hover {
+  background-color: #129611;
+}
+
+.contact-button.mail:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+.contact-button span {
+  position: relative;
+  z-index: 2;
+}
+
+/* 服务区域 */
+.services-section {
+  margin-top: 2.5rem;
+  width: 100%;
+}
+
+.services-title {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.service-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.7s;
+  z-index: -1;
+}
+
+.service-card:hover::before {
+  left: 100%;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.service-card:active {
+  transform: scale(0.95);
+}
+
+.service-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.15);
+}
+
+.service-card:active .service-icon {
+  transform: scale(0.9);
+}
+
+.service-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.service-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.service-description {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 服务颜色 */
+.service-icon.jellyfin {
+  color: #00a4dc;
+}
+
+.service-icon.blog {
+  color: #ff7eb9;
+}
+
+.service-icon.alist {
+  color: #42b983;
+}
+
+.service-icon.minecraft {
+  color: #97c040;
+}
+
+.service-icon.cncnet {
+  color: #ff5722;
+}
+
+/* 状态指示器 */
+.status-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #f44336;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 0 rgba(244, 67, 54, 0.5);
+  animation: pulse-red 2s infinite;
+}
+
+.status-indicator.online {
+  background-color: #4caf50;
+  animation: pulse-green 2s infinite;
+}
+
+/* Toast消息 */
+.toast-message {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%) translateY(100px);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  z-index: 1000;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.toast-message.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
