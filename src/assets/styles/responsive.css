@@ -1,0 +1,112 @@
+/* 响应式设计样式 */
+@media (max-width: 992px) {
+    .main-content {
+      flex-direction: column-reverse;
+      justify-content: flex-start;
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+    
+    .logo-section {
+      margin-bottom: 2rem;
+    }
+    
+    .text-section {
+      width: 100%;
+      max-width: none;
+      padding-right: 0;
+      text-align: center;
+    }
+    
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .services-title {
+      text-align: center;
+    }
+    
+    .site-title {
+      font-size: 3rem;
+    }
+    
+    .site-subtitle {
+      font-size: 1.8rem;
+    }
+    
+    .contact-buttons {
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .site-header {
+      padding: 1rem;
+    }
+    
+    .main-content {
+      padding: 80px 1rem 100px;
+    }
+    
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .site-title {
+      font-size: 2.5rem;
+    }
+    
+    .site-subtitle {
+      font-size: 1.5rem;
+    }
+    
+    .site-description {
+      font-size: 1.2rem;
+    }
+    
+    .contact-buttons {
+      flex-direction: column;
+      width: 100%;
+      max-width: 250px;
+      margin: 0 auto;
+    }
+    
+    .logo-section {
+      width: 80%;
+    }
+  }
+  
+  /* 暗黑模式 */
+  @media (prefers-color-scheme: dark) {
+    .service-card {
+      background-color: rgba(30, 30, 40, 0.6);
+    }
+    
+    .service-card:hover {
+      background-color: rgba(40, 40, 55, 0.8);
+    }
+  }
+  
+  /* 减少动画 */
+  @media (prefers-reduced-motion: reduce) {
+    .service-card,
+    .contact-button,
+    .icon-link,
+    .logo-small img {
+      transition: none;
+    }
+    
+    .service-card:hover,
+    .contact-button:hover {
+      transform: none;
+    }
+    
+    .service-card::before,
+    .contact-button::before {
+      display: none;
+    }
+    
+    .status-indicator {
+      animation: none;
+    }
+  }
