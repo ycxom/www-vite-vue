@@ -150,17 +150,50 @@ export function useTransition(options) {
       transition.classList.add('lamp-show');
 
       setTimeout(() => {
+        // 计算视口尺寸 - 使用多种方法确保准确
+        const viewportWidth = Math.max(
+          window.innerWidth,
+          document.documentElement.clientWidth,
+          screen.width
+        ) * 1.2; // 额外20%确保覆盖
+
+        const viewportHeight = Math.max(
+          window.innerHeight,
+          document.documentElement.clientHeight,
+          screen.height
+        ) * 1.2; // 额外20%确保覆盖
+
+        // 计算需要的尺寸 - 取对角线长度的3倍，确保充分覆盖
+        const requiredSize = Math.ceil(
+          Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight) * 3
+        );
+
+        // 直接设置绝对尺寸
+        transition.style.width = `${requiredSize}px`;
+        transition.style.height = `${requiredSize}px`;
+        transition.style.borderRadius = '0';
+
+        // 添加扩展类
         transition.classList.add('expand');
 
-        // 视觉上的展开完成后，同时开始执行跳转和淡化效果
+        // 额外检查 - 强制确保尺寸覆盖整个视口
         setTimeout(() => {
-          // 开始淡化效果
-          fadeOutTransition();
+          const rect = transition.getBoundingClientRect();
+          if (rect.width < viewportWidth || rect.height < viewportHeight) {
+            console.log('检测到覆盖不完全，增加尺寸');
+            transition.style.width = `${requiredSize * 1.5}px`;
+            transition.style.height = `${requiredSize * 1.5}px`;
+          }
 
-          // 在新标签页打开链接
-          window.open(url, '_blank');
-        }, 600); // 展开持续时间
+          // 视觉上的展开完成后，同时开始执行跳转和淡化效果
+          setTimeout(() => {
+            // 开始淡化效果
+            fadeOutTransition();
 
+            // 在新标签页打开链接
+            window.open(url, '_blank');
+          }, 600); // 展开持续时间
+        }, 100);
       }, 400); // 神灯效果持续时间
     });
   };
