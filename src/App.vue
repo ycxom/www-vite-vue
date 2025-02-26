@@ -39,19 +39,13 @@
               <span>Mail</span>
             </a>
           </div>
-          
+
           <!-- 添加服务按钮区域 -->
           <div class="services-section">
             <h3 class="services-title">My Services</h3>
             <div class="services-grid">
-              <a 
-                v-for="service in services" 
-                :key="service.id" 
-                :href="service.url"
-                @click.prevent="handleServiceClick($event, service)" 
-                target="_blank" 
-                class="service-card"
-              >
+              <a v-for="service in services" :key="service.id" :href="service.url"
+                @click.prevent="handleServiceClick($event, service)" target="_blank" class="service-card">
                 <div class="status-indicator" :class="{ online: serviceStatus[service.id] }"></div>
                 <div :class="['service-icon', service.icon]">
                   <ServiceIcon :type="service.icon" />
@@ -62,16 +56,16 @@
             </div>
           </div>
         </div>
-        
+
         <div class="logo-section">
           <LogoGlow :logoSrc="logoSource" width="300px" glowColor="rgba(255, 192, 203, 0.5)" glowSize="60px" />
         </div>
       </div>
-      
+
       <!-- 页脚 -->
       <Footer class="footer" owner="YCXOM" icpNumber="2021017838" />
     </div>
-    
+
     <!-- 页面过渡效果组件 -->
     <div class="page-transition" ref="pageTransition" :class="{ 'dark-theme': isDarkTheme }"></div>
   </VideoBackground>
@@ -95,6 +89,9 @@ const logoSource = ref(logoImage);
 const serviceStatus = ref({});
 const pageTransition = ref(null);
 const isDarkTheme = ref(false);
+const currentTransitionTimeout = ref(null);
+const navigationStartTime = ref(null);
+const shouldCancelOnMovement = ref(false); // 标记是否应该在用户移动时取消动画
 
 // 品牌颜色配置
 const brandColors = {
@@ -156,12 +153,12 @@ const services = ref([
 const detectTheme = () => {
   const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   isDarkTheme.value = darkModeMediaQuery.matches;
-  
+
   // 监听系统主题变化
   const handleThemeChange = (e) => {
     isDarkTheme.value = e.matches;
   };
-  
+
   darkModeMediaQuery.addEventListener('change', handleThemeChange);
   return () => darkModeMediaQuery.removeEventListener('change', handleThemeChange);
 };
@@ -198,10 +195,10 @@ const showToast = (message) => {
   toast.className = 'toast-message';
   toast.textContent = message;
   document.body.appendChild(toast);
-  
+
   requestAnimationFrame(() => {
     toast.classList.add('show');
-    
+
     setTimeout(() => {
       toast.classList.remove('show');
       setTimeout(() => document.body.removeChild(toast), 300);
@@ -216,44 +213,119 @@ const transitionToPage = (url, serviceType, event) => {
     window.location.href = url;
     return;
   }
-  
+
   if (!pageTransition.value) return;
-  
+
+  // 强制清除任何可能残留的过渡状态
+  forceCleanTransition();
+
+  // 如果已有一个正在进行的跳转，清除它
+  if (currentTransitionTimeout.value) {
+    clearTimeout(currentTransitionTimeout.value);
+    currentTransitionTimeout.value = null;
+  }
+
+  // 记录跳转开始时间
+  navigationStartTime.value = Date.now();
+
   // 获取点击位置
   const x = event?.clientX || window.innerWidth / 2;
   const y = event?.clientY || window.innerHeight / 2;
-  
+
   // 设置过渡样式
   const transition = pageTransition.value;
   const color = getColorForService(serviceType);
-  
+
   transition.style.backgroundColor = color;
   transition.style.left = `${x}px`;
   transition.style.top = `${y}px`;
   transition.className = 'page-transition' + (isDarkTheme.value ? ' dark-theme' : '');
   transition.style.display = 'block';
-  
+
   // 执行动画序列
   requestAnimationFrame(() => {
     transition.classList.add('lamp-show');
-    
+
     setTimeout(() => {
       transition.classList.add('expand');
-      
-      setTimeout(() => {
+
+      // 设置跳转执行
+      const jumpTimeout = setTimeout(() => {
         window.location.href = url;
+        currentTransitionTimeout.value = null;
       }, 600);
+
+      // 存储当前的跳转计时器ID
+      currentTransitionTimeout.value = jumpTimeout;
+
+      // 设置超时检测 - 2秒后检查是否仍在同一页面
+      setTimeout(() => {
+        // 如果还在原页面且超过了2秒
+        if (Date.now() - navigationStartTime.value >= 2000 &&
+          currentTransitionTimeout.value === jumpTimeout) {
+          // 显示提示消息
+          showToast('跳转已取消');
+          // 取消动画
+          fadeOutAndClearTransition();
+        }
+      }, 2000); // 2秒后检查
+
     }, 400);
   });
 };
 
+// 彻底清除过渡元素的所有状态
+const forceCleanTransition = () => {
+  if (!pageTransition.value) return;
+
+  const transition = pageTransition.value;
+
+  // 移除所有类和内联样式
+  transition.className = 'page-transition';
+  transition.style.display = 'none';
+  transition.style.opacity = '';
+  transition.style.backgroundColor = '';
+  transition.style.transform = '';
+  transition.style.width = '';
+  transition.style.height = '';
+  transition.style.borderRadius = '';
+
+  // 应用默认值
+  transition.style.left = '50%';
+  transition.style.top = '50%';
+};
+
+// 使用透明度淡出并清除
+const fadeOutAndClearTransition = () => {
+  if (!pageTransition.value) return;
+
+  // 清除计时器
+  if (currentTransitionTimeout.value) {
+    clearTimeout(currentTransitionTimeout.value);
+    currentTransitionTimeout.value = null;
+  }
+
+  const transition = pageTransition.value;
+
+  // 设置透明度过渡
+  transition.style.transition = 'opacity 1s ease, background-color 1s ease';
+
+  // 开始淡出 - 先将颜色变为透明
+  transition.style.opacity = '0';
+  transition.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+
+  // 动画结束后移除元素
+  setTimeout(() => {
+    forceCleanTransition();
+  }, 1000);
+};
 // 处理服务卡片点击
 const handleServiceClick = (event, service) => {
   if (service.isCopyOnly) {
     copyToClipboard(service.copyValue);
     return;
   }
-  
+
   transitionToPage(service.url, service.icon, event);
 };
 
@@ -263,7 +335,7 @@ const handleContactClick = (event, type, value) => {
     copyToClipboard(value);
     return;
   }
-  
+
   if (type === 'mail') {
     transitionToPage(`mailto:${value}`, type, event);
   }
@@ -280,11 +352,11 @@ const checkServiceStatus = () => {
 onMounted(() => {
   // 检测当前主题
   const cleanupThemeDetection = detectTheme();
-  
+
   // 检查服务状态
   checkServiceStatus();
   const statusInterval = setInterval(checkServiceStatus, 60000);
-  
+
   // 检测移动设备
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
@@ -296,24 +368,65 @@ onMounted(() => {
       minecraftService.description = 'Tap to copy';
     }
   }
-  
+
   // 监听自定义主题变化
   const observer = new MutationObserver(() => {
     const bodyStyle = window.getComputedStyle(document.body);
     const customTheme = bodyStyle.getPropertyValue('--theme-mode')?.trim();
-    
+
     if (customTheme) {
       isDarkTheme.value = customTheme === 'dark';
     }
   });
-  
+
   observer.observe(document.body, {
     attributes: true,
     attributeFilter: ['class', 'style']
   });
-  
-  // 清理函数
+
+  // 监听页面卸载事件
+  const handleBeforeUnload = () => {
+    // 页面正在卸载，不需要执行取消动画
+    currentTransitionTimeout.value = null;
+  };
+
+  // 监听页面可见性变化
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'hidden' && currentTransitionTimeout.value) {
+      // 页面不可见时，不执行取消动画，可能是正在导航到新页面
+      currentTransitionTimeout.value = null;
+    }
+  };
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // 监听页面卸载和可见性变化
+  const handleUnloadEvents = () => {
+    if (currentTransitionTimeout.value) {
+      clearTimeout(currentTransitionTimeout.value);
+      currentTransitionTimeout.value = null;
+    }
+  };
+
+  window.addEventListener('beforeunload', handleUnloadEvents);
+  window.addEventListener('pagehide', handleUnloadEvents);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      handleUnloadEvents();
+    }
+  });
+
+  // 清理
   onUnmounted(() => {
+    window.removeEventListener('beforeunload', handleUnloadEvents);
+    window.removeEventListener('pagehide', handleUnloadEvents);
+    document.removeEventListener('visibilitychange', handleUnloadEvents);
+
+    // 在组件卸载时，确保清除所有残留状态
+    forceCleanTransition();
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
     cleanupThemeDetection();
     clearInterval(statusInterval);
     observer.disconnect();
@@ -380,15 +493,68 @@ body {
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(50, 50, 50, 0.8);
 }
 
+/* 页面过渡基础样式 */
+.page-transition {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  z-index: 9999;
+  display: none;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity, width, height, background-color;
+  opacity: 1;
+  /* 默认完全不透明 */
+  background-color: #ffffff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  transition: opacity 1s ease, background-color 1s ease;
+  /* 默认过渡设置 */
+}
+
+/* 暗色主题 */
+.page-transition.dark-theme {
+  background-color: #121212;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 神灯出现效果 */
+.page-transition.lamp-show {
+  width: 60px;
+  height: 80px;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.8);
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-radius 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 1s ease,
+    background-color 1s ease;
+  animation: rotate-and-glow-light 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+}
+
+/* 展开效果 */
+.page-transition.expand {
+  width: 300vw;
+  height: 300vh;
+  border-radius: 0;
+  transition: width 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+    height 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+    border-radius 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+    opacity 1s ease,
+    background-color 1s ease;
+}
+
 @keyframes rotate-and-glow-light {
   0% {
     transform: translate(-50%, -50%) rotate(0deg) scale(0);
     opacity: 0;
     filter: brightness(100%) contrast(100%);
   }
+
   50% {
     filter: brightness(120%) contrast(110%);
   }
+
   100% {
     transform: translate(-50%, -50%) rotate(720deg) scale(1);
     opacity: 1;
@@ -402,9 +568,11 @@ body {
     opacity: 0;
     filter: brightness(40%) contrast(120%);
   }
+
   50% {
     filter: brightness(50%) contrast(130%);
   }
+
   100% {
     transform: translate(-50%, -50%) rotate(720deg) scale(1);
     opacity: 1;
@@ -634,6 +802,7 @@ body {
     transform: scale(0, 0) translate(-50%, -50%);
     opacity: 0.5;
   }
+
   100% {
     transform: scale(20, 20) translate(-50%, -50%);
     opacity: 0;
@@ -742,11 +911,25 @@ body {
 }
 
 /* 服务颜色 */
-.service-icon.jellyfin { color: #00a4dc; }
-.service-icon.blog { color: #ff7eb9; }
-.service-icon.alist { color: #42b983; }
-.service-icon.minecraft { color: #97c040; }
-.service-icon.cncnet { color: #ff5722; }
+.service-icon.jellyfin {
+  color: #00a4dc;
+}
+
+.service-icon.blog {
+  color: #ff7eb9;
+}
+
+.service-icon.alist {
+  color: #42b983;
+}
+
+.service-icon.minecraft {
+  color: #97c040;
+}
+
+.service-icon.cncnet {
+  color: #ff5722;
+}
 
 /* 状态指示器 */
 .status-indicator {
@@ -768,15 +951,31 @@ body {
 }
 
 @keyframes pulse-red {
-  0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.5); }
-  70% { box-shadow: 0 0 0 5px rgba(244, 67, 54, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.5);
+  }
+
+  70% {
+    box-shadow: 0 0 0 5px rgba(244, 67, 54, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
 }
 
 @keyframes pulse-green {
-  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5); }
-  70% { box-shadow: 0 0 0 5px rgba(76, 175, 80, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5);
+  }
+
+  70% {
+    box-shadow: 0 0 0 5px rgba(76, 175, 80, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
 }
 
 /* Logo区域 */
@@ -828,34 +1027,34 @@ body {
     padding-top: 80px;
     padding-bottom: 80px;
   }
-  
+
   .logo-section {
     margin-bottom: 2rem;
   }
-  
+
   .text-section {
     width: 100%;
     max-width: none;
     padding-right: 0;
     text-align: center;
   }
-  
+
   .services-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .services-title {
     text-align: center;
   }
-  
+
   .site-title {
     font-size: 3rem;
   }
-  
+
   .site-subtitle {
     font-size: 1.8rem;
   }
-  
+
   .contact-buttons {
     justify-content: center;
   }
@@ -865,34 +1064,34 @@ body {
   .site-header {
     padding: 1rem;
   }
-  
+
   .main-content {
     padding: 80px 1rem 100px;
   }
-  
+
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .site-title {
     font-size: 2.5rem;
   }
-  
+
   .site-subtitle {
     font-size: 1.5rem;
   }
-  
+
   .site-description {
     font-size: 1.2rem;
   }
-  
+
   .contact-buttons {
     flex-direction: column;
     width: 100%;
     max-width: 250px;
     margin: 0 auto;
   }
-  
+
   .logo-section {
     width: 80%;
   }
@@ -903,7 +1102,7 @@ body {
   .service-card {
     background-color: rgba(30, 30, 40, 0.6);
   }
-  
+
   .service-card:hover {
     background-color: rgba(40, 40, 55, 0.8);
   }
@@ -911,18 +1110,24 @@ body {
 
 /* 减少动画 */
 @media (prefers-reduced-motion: reduce) {
-  .service-card, .contact-button, .icon-link, .logo-small img {
+
+  .service-card,
+  .contact-button,
+  .icon-link,
+  .logo-small img {
     transition: none;
   }
-  
-  .service-card:hover, .contact-button:hover {
+
+  .service-card:hover,
+  .contact-button:hover {
     transform: none;
   }
-  
-  .service-card::before, .contact-button::before {
+
+  .service-card::before,
+  .contact-button::before {
     display: none;
   }
-  
+
   .status-indicator {
     animation: none;
   }
