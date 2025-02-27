@@ -2,8 +2,13 @@
   <VideoBackground :videoSrc="videoSource">
     <!-- 顶部导航 -->
     <header class="site-header">
-      <div class="logo-small">
-        <img src="./assets/images/my-logo.png" alt="YCXOM" />
+      <div class="logo-small-wrapper">
+        <AvoidanceIcon :avoidanceRadius="120" :maxDistance="40" :speedFactor="0.2" :returnFactor="0.1"
+          :enabled="!isLowPerformanceDevice">
+          <div class="logo-small">
+            <img src="./assets/images/my-logo.png" alt="YCXOM" />
+          </div>
+        </AvoidanceIcon>
       </div>
       <div class="header-icons">
         <a href="https://github.com/ycxom" target="_blank" class="icon-link" title="GitHub">
@@ -81,6 +86,7 @@ import DotPattern from './components/DotPattern.vue';
 import LogoGlow from './components/LogoGlow.vue';
 import Footer from './components/Footer.vue';
 import ServiceIcon from './components/ServiceIcon.vue';
+import AvoidanceIcon from './components/AvoidanceIcon.vue';
 
 // 导入可组合逻辑
 import { useTheme } from './composables/useTheme';

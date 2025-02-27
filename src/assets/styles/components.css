@@ -40,8 +40,16 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+.logo-small-wrapper {
+  display: inline-block;
+  padding: 5px;
+}
+
 .logo-small {
   height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-small img {
