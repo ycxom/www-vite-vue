@@ -59,7 +59,8 @@
           </div>
         </div>
         <div class="logo-section">
-          <LogoGlow :logoSrc="logoSource" width="300px" glowColor="rgba(255, 192, 203, 0.5)" glowSize="60px" />
+          <LogoGlow :logoSrc="logoSource" width="300px" glowColor="rgba(255, 192, 203, 0.5)" glowSize="60px"
+            :springStrength="0.6" :damping="0.8" :maxStretch="5" :elasticity="0.7" :returnDuration="400" />
         </div>
       </div>
 
