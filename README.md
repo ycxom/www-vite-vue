@@ -4,42 +4,44 @@
 
 ## 说明
 
- > │  App.vue                  // 主应用组件
- > │  main.js                  // 应用入口文件
- > │  style.css                // 全局样式
- > │
- > ├─assets                    // 静态资源目录
- > │  │  vue.svg               // Vue logo
- > │  │
- > │  ├─images                 // 图片资源
- > │  │      my-logo.png       // 项目logo
- > │  │
- > │  ├─styles                 // 样式文件目录
- > │  │      animations.css    // 动画样式
- > │  │      base.css          // 基础样式
- > │  │      components.css    // 组件样式
- > │  │      layout.css        // 布局样式
- > │  │      main.css          // 主样式
- > │  │      responsive.css    // 响应式样式
- > │  │      transitions.css   // 过渡样式
- > │  │      utilities.css     // 工具类样式
- > │  │
- > │  └─video                  // 视频资源
- > │          ANIPLEX.EXE『ATRI -My Dear Moments-』スペシャルアニメーションPV.mp4
- > │
- > ├─components                // Vue组件目录
- > │      AvoidanceIcon.vue    // 规避图标组件
- > │      DotPattern.vue       // 点状图案组件
- > │      Footer.vue           // 页脚组件
- > │      HelloWorld.vue       // 示例组件
- > │      LogoGlow.vue         // logo光效组件
- > │      ServiceIcon.vue      // 服务图标组件
- > │      VideoBackground.vue  // 视频背景组件
- > │
- > └─composables               // 组合式API目录
- > useServices.js       // 服务相关逻辑
- > useTheme.js          // 主题相关逻辑
- > useTransition.js     // 过渡效果逻辑
+```tree
+│  App.vue                  // 主应用组件
+│  main.js                  // 应用入口文件
+│  style.css                // 全局样式
+│
+├─assets                    // 静态资源目录
+│  │  vue.svg               // Vue logo
+│  │
+│  ├─images                 // 图片资源
+│  │      my-logo.png       // 项目logo
+│  │
+│  ├─styles                 // 样式文件目录
+│  │      animations.css    // 动画样式
+│  │      base.css          // 基础样式
+│  │      components.css    // 组件样式
+│  │      layout.css        // 布局样式
+│  │      main.css          // 主样式
+│  │      responsive.css    // 响应式样式
+│  │      transitions.css   // 过渡样式
+│  │      utilities.css     // 工具类样式
+│  │
+│  └─video                  // 视频资源
+│          ANIPLEX.EXE『ATRI -My Dear Moments-』スペシャルアニメーションPV.mp4
+│
+├─components                // Vue组件目录
+│      AvoidanceIcon.vue    // 规避图标组件
+│      DotPattern.vue       // 点状图案组件
+│      Footer.vue           // 页脚组件
+│      HelloWorld.vue       // 示例组件
+│      LogoGlow.vue         // logo光效组件
+│      ServiceIcon.vue      // 服务图标组件
+│      VideoBackground.vue  // 视频背景组件
+│
+└─composables               // 组合式API目录
+        useServices.js       // 服务相关逻辑
+        useTheme.js          // 主题相关逻辑
+        useTransition.js     // 过渡效果逻辑
+```
 
 ### 卡片修改
 
