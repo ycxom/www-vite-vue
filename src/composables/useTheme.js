@@ -13,17 +13,9 @@ export function useTheme(options = {}) {
   const currentTheme = ref(defaultTheme);
   const systemPrefersDark = ref(false);
 
-  // 主题选项
-  const themeOptions = [
-    { value: 'light', label: '浅色', icon: '☀️' },
-    { value: 'dark', label: '深色', icon: '🌙' },
-    { value: 'system', label: '跟随系统', icon: '💻' }
-  ];
-
   // 从本地存储获取主题偏好
   const getStoredTheme = () => {
     if (!enableStorage) return defaultTheme;
-
     try {
       return localStorage.getItem(storageKey) || defaultTheme;
     } catch (error) {
@@ -35,7 +27,6 @@ export function useTheme(options = {}) {
   // 保存主题偏好到本地存储
   const setStoredTheme = (theme) => {
     if (!enableStorage) return;
-
     try {
       localStorage.setItem(storageKey, theme);
     } catch (error) {
@@ -60,7 +51,6 @@ export function useTheme(options = {}) {
   // 更新实际主题状态
   const updateTheme = () => {
     let shouldBeDark = false;
-
     switch (currentTheme.value) {
       case 'dark':
         shouldBeDark = true;
@@ -73,7 +63,6 @@ export function useTheme(options = {}) {
         shouldBeDark = systemPrefersDark.value;
         break;
     }
-
     isDarkTheme.value = shouldBeDark;
   };
 
@@ -111,15 +100,24 @@ export function useTheme(options = {}) {
   // 更新移动端浏览器主题色
   const updateMetaThemeColor = (dark) => {
     let metaThemeColor = document.querySelector('meta[name="theme-color"]');
-
     if (!metaThemeColor) {
       metaThemeColor = document.createElement('meta');
       metaThemeColor.name = 'theme-color';
       document.head.appendChild(metaThemeColor);
     }
-
-    // 根据主题设置不同的颜色
     metaThemeColor.content = dark ? '#121212' : '#ffffff';
+  };
+
+  // 设置特定主题
+  const setTheme = (theme) => {
+    const validThemes = ['light', 'dark', 'system'];
+    if (!validThemes.includes(theme)) {
+      console.warn(`未知的主题类型: ${theme}`);
+      return;
+    }
+    currentTheme.value = theme;
+    setStoredTheme(theme);
+    updateTheme();
   };
 
   // 切换主题
@@ -130,21 +128,15 @@ export function useTheme(options = {}) {
     setTheme(themes[nextIndex]);
   };
 
-  // 设置特定主题
-  const setTheme = (theme) => {
-    if (!themeOptions.some(option => option.value === theme)) {
-      console.warn(`未知的主题类型: ${theme}`);
-      return;
-    }
-
-    currentTheme.value = theme;
-    setStoredTheme(theme);
-    updateTheme();
-  };
-
   // 获取当前主题信息
   const getCurrentThemeInfo = () => {
-    return themeOptions.find(option => option.value === currentTheme.value) || themeOptions[0];
+    return {
+      current: currentTheme.value,
+      isDark: isDarkTheme.value,
+      isLight: !isDarkTheme.value,
+      isSystem: currentTheme.value === 'system',
+      systemPrefersDark: systemPrefersDark.value
+    };
   };
 
   // 检测自定义主题变化（通过 CSS 变量或类名）
@@ -152,7 +144,6 @@ export function useTheme(options = {}) {
     const observer = new MutationObserver(() => {
       const bodyStyle = window.getComputedStyle(document.body);
       const customTheme = bodyStyle.getPropertyValue('--theme-mode')?.trim();
-
       if (customTheme && (customTheme === 'dark' || customTheme === 'light')) {
         const shouldBeDark = customTheme === 'dark';
         if (isDarkTheme.value !== shouldBeDark) {
@@ -165,7 +156,6 @@ export function useTheme(options = {}) {
       attributes: true,
       attributeFilter: ['class', 'style']
     });
-
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'style']
@@ -173,16 +163,6 @@ export function useTheme(options = {}) {
 
     return () => observer.disconnect();
   };
-
-  // 监听主题变化并应用到 DOM
-  watch(isDarkTheme, (newValue) => {
-    applyTheme(newValue);
-  }, { immediate: true });
-
-  // 监听当前主题变化
-  watch(currentTheme, () => {
-    updateTheme();
-  });
 
   // 获取主题相关的 CSS 类
   const getThemeClasses = () => {
@@ -201,6 +181,16 @@ export function useTheme(options = {}) {
       '--is-light': isDarkTheme.value ? '0' : '1'
     };
   };
+
+  // 监听主题变化并应用到 DOM
+  watch(isDarkTheme, (newValue) => {
+    applyTheme(newValue);
+  }, { immediate: true });
+
+  // 监听当前主题变化
+  watch(currentTheme, () => {
+    updateTheme();
+  });
 
   onMounted(() => {
     // 初始化主题
@@ -227,9 +217,6 @@ export function useTheme(options = {}) {
     isDarkTheme,
     currentTheme,
     systemPrefersDark,
-
-    // 主题选项
-    themeOptions,
 
     // 主题控制方法
     toggleTheme,
