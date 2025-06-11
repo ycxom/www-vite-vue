@@ -1,4 +1,3 @@
-<!-- src/components/VideoBackground.vue -->
 <template>
   <div class="video-container">
     <video ref="videoElement" autoplay muted loop playsinline preload="metadata" class="fullscreen-video"
@@ -14,8 +13,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue'
 
+// 组件属性
 const props = defineProps({
   videoSrc: {
     type: String,
@@ -25,84 +25,86 @@ const props = defineProps({
     type: String,
     default: '#0d0f16'
   }
-});
+})
 
-const videoElement = ref(null);
-const videoError = ref(false);
+// 状态变量
+const videoElement = ref(null)
+const videoError = ref(false)
 
+// 视频尺寸调整
 const resizeVideo = () => {
-  const video = videoElement.value;
-  if (!video || videoError.value) return;
+  const video = videoElement.value
+  if (!video || videoError.value) return
 
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  const windowRatio = windowWidth / windowHeight;
-  const videoRatio = video.videoWidth / video.videoHeight;
+  const windowWidth = window.innerWidth
+  const windowHeight = window.innerHeight
+  const windowRatio = windowWidth / windowHeight
+  const videoRatio = video.videoWidth / video.videoHeight
 
   if (windowRatio > videoRatio) {
-    video.style.width = '100vw';
-    video.style.height = 'auto';
-    video.style.top = '50%';
-    video.style.left = '0';
-    video.style.transform = 'translateY(-50%)';
+    video.style.width = '100vw'
+    video.style.height = 'auto'
+    video.style.top = '50%'
+    video.style.left = '0'
+    video.style.transform = 'translateY(-50%)'
   } else {
-    video.style.width = 'auto';
-    video.style.height = '100vh';
-    video.style.top = '0';
-    video.style.left = '50%';
-    video.style.transform = 'translateX(-50%)';
+    video.style.width = 'auto'
+    video.style.height = '100vh'
+    video.style.top = '0'
+    video.style.left = '50%'
+    video.style.transform = 'translateX(-50%)'
   }
-};
+}
 
+// 视频错误处理
 const handleVideoError = (error) => {
-  console.warn('Video loading failed:', error);
-  videoError.value = true;
+  console.warn('Video loading failed:', error)
+  videoError.value = true
 
-  // 隐藏视频元素
   if (videoElement.value) {
-    videoElement.value.style.display = 'none';
+    videoElement.value.style.display = 'none'
   }
-};
+}
 
 // 检测低性能设备
 const isLowPerformanceDevice = () => {
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const hasLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  const hasLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4
   const hasSlowConnection = navigator.connection &&
     (navigator.connection.effectiveType === 'slow-2g' ||
-      navigator.connection.effectiveType === '2g');
+      navigator.connection.effectiveType === '2g')
 
-  return isMobile || hasLowMemory || hasSlowConnection;
-};
+  return isMobile || hasLowMemory || hasSlowConnection
+}
 
+// 生命周期钩子
 onMounted(() => {
-  const video = videoElement.value;
+  const video = videoElement.value
+  if (!video) return
 
-  if (!video) return;
-
-  // 低性能设备可能不播放视频
+  // 低性能设备优化
   if (isLowPerformanceDevice()) {
-    video.preload = 'none';
+    video.preload = 'none'
   }
 
   if (video.readyState >= 1) {
-    resizeVideo();
+    resizeVideo()
   }
 
-  window.addEventListener('resize', resizeVideo, { passive: true });
-});
+  window.addEventListener('resize', resizeVideo, { passive: true })
+})
 
 onUnmounted(() => {
-  window.removeEventListener('resize', resizeVideo);
+  window.removeEventListener('resize', resizeVideo)
 
   // 清理视频资源
-  const video = videoElement.value;
+  const video = videoElement.value
   if (video) {
-    video.pause();
-    video.removeAttribute('src');
-    video.load();
+    video.pause()
+    video.removeAttribute('src')
+    video.load()
   }
-});
+})
 </script>
 
 <style scoped>

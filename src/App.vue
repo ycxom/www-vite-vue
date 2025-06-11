@@ -12,11 +12,6 @@
       </div>
 
       <div class="header-icons">
-        <!-- 主题切换按钮 -->
-        <button @click="toggleTheme" class="theme-toggle-btn" :title="`当前主题: ${getCurrentThemeInfo().label}`">
-          <span class="theme-icon">{{ getCurrentThemeInfo().icon }}</span>
-        </button>
-
         <!-- GitHub 链接 -->
         <a href="https://github.com/ycxom" target="_blank" class="icon-link" title="GitHub"
           @click.prevent="handleServiceClick($event, githubService)">
@@ -109,36 +104,35 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 // 导入组件
-import VideoBackground from './components/VideoBackground.vue';
-import DotPattern from './components/DotPattern.vue';
-import LogoGlow from './components/LogoGlow.vue';
-import Footer from './components/Footer.vue';
-import IconComponent from './components/IconComponent.vue';
-import AvoidanceIcon from './components/AvoidanceIcon.vue';
+import VideoBackground from './components/VideoBackground.vue'
+import DotPattern from './components/DotPattern.vue'
+import LogoGlow from './components/LogoGlow.vue'
+import Footer from './components/Footer.vue'
+import IconComponent from './components/IconComponent.vue'
+import AvoidanceIcon from './components/AvoidanceIcon.vue'
 
 // 导入可组合逻辑
-import { useTheme } from './composables/useTheme';
-import { useTransition } from './composables/useTransition';
-import { useServices } from './composables/useServices';
+import { useTheme } from './composables/useTheme'
+import { useTransition } from './composables/useTransition'
+import { useServices } from './composables/useServices'
 
 // 导入资源
-import backgroundVideo from './assets/video/ANIPLEX.EXE『ATRI -My Dear Moments-』スペシャルアニメーションPV.mp4';
-import logoImage from './assets/images/my-logo.png';
+import backgroundVideo from './assets/video/ANIPLEX.EXE『ATRI -My Dear Moments-』スペシャルアニメーションPV.mp4'
+import logoImage from './assets/images/my-logo.png'
 
 // 导入样式
-import './assets/styles/main.css';
+import './assets/styles/main.css'
 
 // 设置响应式状态
-const videoSource = ref(backgroundVideo);
-const logoSource = ref(logoImage);
+const videoSource = ref(backgroundVideo)
+const logoSource = ref(logoImage)
 
 // 使用主题逻辑
 const {
   isDarkTheme,
-  toggleTheme,
   getCurrentThemeInfo,
   getThemeClasses,
   getThemeStyles
@@ -147,7 +141,7 @@ const {
   defaultTheme: 'system',
   enableStorage: true,
   enableTransitions: true
-});
+})
 
 // 使用服务状态逻辑
 const {
@@ -159,7 +153,7 @@ const {
   getServiceColor,
   copyToClipboard,
   showToast
-} = useServices();
+} = useServices()
 
 // 使用页面过渡逻辑
 const {
@@ -172,7 +166,7 @@ const {
   copyToClipboard,
   showToast,
   brandColors
-});
+})
 
 // GitHub 服务配置
 const githubService = computed(() => ({
@@ -181,11 +175,15 @@ const githubService = computed(() => ({
   url: 'https://github.com/ycxom',
   icon: 'github',
   iconType: 'built-in'
-}));
+}))
 
-// 获取服务悬停颜色
+/**
+ * 获取服务悬停颜色
+ * @param {string} serviceId - 服务ID
+ * @returns {string} 悬停颜色
+ */
 const getServiceHoverColor = (serviceId) => {
-  const color = getServiceColor(serviceId);
-  return color + '20';
-};
+  const color = getServiceColor(serviceId)
+  return color + '20'
+}
 </script>

@@ -1,5 +1,6 @@
-/* src\assets\styles\base.css */
 /* 基础样式和重置 */
+
+/* 全局重置 */
 * {
   margin: 0;
   padding: 0;
@@ -8,11 +9,12 @@
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+/* 页面基础样式 */
 body {
   overflow: hidden;
 }
 
-/* 基本文本样式 */
+/* 文本样式 */
 h1,
 h2,
 h3,
