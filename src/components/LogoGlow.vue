@@ -1,4 +1,4 @@
-<!-- LogoGlow.vue -->
+<!-- src/components/LogoGlow.vue -->
 <template>
   <div class="logo-container" :style="containerStyle" @mousedown="startDrag" @touchstart="startDrag">
     <img :src="logoSrc" alt="Logo" class="logo" :style="logoStyle" ref="logoRef" draggable="false" />

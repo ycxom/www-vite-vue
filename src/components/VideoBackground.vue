@@ -1,10 +1,12 @@
-<!-- components/VideoBackground.vue -->
+<!-- src/components/VideoBackground.vue -->
 <template>
   <div class="video-container">
-    <video ref="videoElement" autoplay muted loop playsinline class="fullscreen-video">
+    <video ref="videoElement" autoplay muted loop playsinline preload="metadata" class="fullscreen-video"
+      @loadedmetadata="resizeVideo" @error="handleVideoError">
       <source :src="videoSrc" type="video/mp4">
+      <p>Your browser does not support the video tag.</p>
     </video>
-    <div class="overlay"></div>
+    <div class="overlay" :class="{ 'fallback-bg': videoError }"></div>
     <div class="content">
       <slot></slot>
     </div>
@@ -18,14 +20,19 @@ const props = defineProps({
   videoSrc: {
     type: String,
     required: true
+  },
+  fallbackColor: {
+    type: String,
+    default: '#0d0f16'
   }
 });
 
 const videoElement = ref(null);
+const videoError = ref(false);
 
 const resizeVideo = () => {
   const video = videoElement.value;
-  if (!video) return;
+  if (!video || videoError.value) return;
 
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -47,24 +54,54 @@ const resizeVideo = () => {
   }
 };
 
+const handleVideoError = (error) => {
+  console.warn('Video loading failed:', error);
+  videoError.value = true;
+
+  // 隐藏视频元素
+  if (videoElement.value) {
+    videoElement.value.style.display = 'none';
+  }
+};
+
+// 检测低性能设备
+const isLowPerformanceDevice = () => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const hasLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+  const hasSlowConnection = navigator.connection &&
+    (navigator.connection.effectiveType === 'slow-2g' ||
+      navigator.connection.effectiveType === '2g');
+
+  return isMobile || hasLowMemory || hasSlowConnection;
+};
+
 onMounted(() => {
   const video = videoElement.value;
-  if (video) {
-    video.addEventListener('loadedmetadata', resizeVideo);
-    if (video.readyState >= 1) {
-      resizeVideo();
-    }
+
+  if (!video) return;
+
+  // 低性能设备可能不播放视频
+  if (isLowPerformanceDevice()) {
+    video.preload = 'none';
   }
 
-  window.addEventListener('resize', resizeVideo);
+  if (video.readyState >= 1) {
+    resizeVideo();
+  }
+
+  window.addEventListener('resize', resizeVideo, { passive: true });
 });
 
 onUnmounted(() => {
+  window.removeEventListener('resize', resizeVideo);
+
+  // 清理视频资源
   const video = videoElement.value;
   if (video) {
-    video.removeEventListener('loadedmetadata', resizeVideo);
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
   }
-  window.removeEventListener('resize', resizeVideo);
 });
 </script>
 
@@ -76,7 +113,7 @@ onUnmounted(() => {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: #0d0f16;
+  background-color: v-bind('props.fallbackColor');
 }
 
 .fullscreen-video {
@@ -87,6 +124,7 @@ onUnmounted(() => {
   height: auto;
   z-index: 1;
   object-fit: cover;
+  transition: opacity 0.3s ease;
 }
 
 .overlay {
@@ -97,6 +135,11 @@ onUnmounted(() => {
   height: 100%;
   background-color: rgba(13, 15, 22, 0.7);
   z-index: 2;
+  transition: background-color 0.3s ease;
+}
+
+.overlay.fallback-bg {
+  background-color: rgba(13, 15, 22, 0.9);
 }
 
 .content {
@@ -107,10 +150,22 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* 改为从上往下排列 */
   align-items: center;
   color: white;
   -webkit-overflow-scrolling: touch;
-  /* 增强移动端滚动体验 */
+}
+
+/* 减少动画偏好时暂停视频 */
+@media (prefers-reduced-motion: reduce) {
+  .fullscreen-video {
+    animation-play-state: paused;
+  }
+}
+
+/* 低性能设备优化 */
+@media (max-width: 768px) {
+  .fullscreen-video {
+    will-change: auto;
+  }
 }
 </style>

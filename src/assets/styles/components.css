@@ -1,3 +1,4 @@
+/* src\assets\styles\components.css */
 /* 站点标题样式 */
 .site-title {
   font-size: 4rem;
@@ -33,7 +34,7 @@
   z-index: 20;
   backdrop-filter: blur(5px);
   background-color: rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s;
+  transition: var(--theme-transition, background-color 0.3s);
 }
 
 .site-header:hover {
@@ -64,13 +65,43 @@
 .header-icons {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+
+/* 主题切换按钮 */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.theme-icon {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .icon-link {
   color: rgba(255, 255, 255, 0.7);
   transition: all 0.3s;
-  padding: 5px;
+  padding: 8px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-link:hover {
@@ -83,7 +114,7 @@
 .contact-buttons {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   position: relative;
   z-index: 10;
 }
@@ -92,7 +123,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 1.5rem;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 2rem;
   font-weight: 500;
   text-decoration: none;
@@ -101,6 +133,10 @@
   position: relative;
   z-index: 10;
   overflow: hidden;
+  cursor: pointer;
+  border: 2px solid var(--button-color, rgba(255, 255, 255, 0.2));
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .contact-button::before {
@@ -119,33 +155,15 @@
   left: 100%;
 }
 
-.contact-button.qq {
-  background-color: #1aad19;
-  color: white;
-}
-
-.contact-button.mail {
-  background-color: transparent;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-}
-
 .contact-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background: var(--button-color, rgba(255, 255, 255, 0.2));
+  border-color: var(--button-color, white);
 }
 
 .contact-button:active {
   transform: scale(0.98);
-}
-
-.contact-button.qq:hover {
-  background-color: #129611;
-}
-
-.contact-button.mail:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: white;
 }
 
 .contact-button span {
@@ -162,26 +180,29 @@
 .services-title {
   font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   opacity: 0.9;
   font-weight: 500;
+  text-align: center;
 }
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .service-card {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
   display: flex;
   flex-direction: column;
@@ -189,6 +210,8 @@
   position: relative;
   z-index: 10;
   overflow: hidden;
+  min-height: 140px;
+  justify-content: center;
 }
 
 .service-card::before {
@@ -209,110 +232,163 @@
 
 .service-card:hover {
   transform: translateY(-5px);
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--service-hover-color, rgba(255, 255, 255, 0.15));
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--service-color, rgba(255, 255, 255, 0.3));
 }
 
 .service-card:active {
   transform: scale(0.95);
 }
 
+/* 服务图标包装器 */
+.service-icon-wrapper {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
 .service-icon {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 0.5rem;
+  width: 48px;
+  height: 48px;
+  color: var(--service-color, white);
+  transition: all 0.3s ease;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: white;
-  transition: transform 0.3s ease, color 0.3s ease;
+  justify-content: center;
+}
+
+.service-icon.image-icon {
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .service-card:hover .service-icon {
   transform: scale(1.15);
+  filter: brightness(1.2);
 }
 
 .service-card:active .service-icon {
   transform: scale(0.9);
 }
 
-.service-icon svg {
-  width: 100%;
-  height: 100%;
+/* 服务信息 */
+.service-info {
+  text-align: center;
+  color: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .service-name {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: white;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .service-description {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* 服务颜色 */
-.service-icon.jellyfin {
-  color: #00a4dc;
-}
-
-.service-icon.blog {
-  color: #ff7eb9;
-}
-
-.service-icon.alist {
-  color: #42b983;
-}
-
-.service-icon.minecraft {
-  color: #97c040;
-}
-
-.service-icon.cncnet {
-  color: #ff5722;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.3;
 }
 
 /* 状态指示器 */
 .status-indicator {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 8px;
-  height: 8px;
+  top: 12px;
+  left: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: #f44336;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0 0 rgba(244, 67, 54, 0.5);
   animation: pulse-red 2s infinite;
+  z-index: 10;
 }
 
 .status-indicator.online {
   background-color: #4caf50;
   animation: pulse-green 2s infinite;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+.status-indicator.offline {
+  background-color: #f44336;
+  animation: pulse-red 2s infinite;
+  box-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
+}
+
+/* 复制指示器 */
+.copy-indicator {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  z-index: 10;
+}
+
+.service-card.copy-only::after {
+  content: '点击复制';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+  z-index: 10;
+}
+
+/* 特殊状态样式 */
+.service-card.online {
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.service-card.offline {
+  border-color: rgba(244, 67, 54, 0.3);
 }
 
 /* Toast消息 */
 .toast-message {
   position: fixed;
   left: 50%;
-  bottom: 30px;
-  transform: translateX(-50%) translateY(100px);
-  background-color: rgba(0, 0, 0, 0.8);
+  top: 20px;
+  transform: translateX(-50%) translateY(-100px);
+  background-color: rgba(0, 0, 0, 0.9);
   color: white;
   padding: 12px 24px;
-  border-radius: 30px;
+  border-radius: 8px;
   font-size: 0.9rem;
-  z-index: 1000;
+  z-index: 10000;
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
   backdrop-filter: blur(10px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 90vw;
+  text-align: center;
 }
 
 .toast-message.show {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
+}
+
+/* 主题相关样式 */
+.theme-light .service-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+}
+
+.theme-light .service-name,
+.theme-light .service-description {
+  color: #333;
+}
+
+.theme-dark .service-card {
+  background-color: rgba(30, 30, 40, 0.8);
+  color: white;
 }

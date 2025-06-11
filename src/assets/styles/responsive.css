@@ -1,3 +1,4 @@
+/* src\assets\styles\responsive.css */
 /* 响应式设计样式 */
 @media (max-width: 992px) {
   .main-content {
@@ -19,7 +20,8 @@
   }
 
   .services-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
   }
 
   .services-title {
@@ -39,26 +41,58 @@
   }
 }
 
-
-/* 优化移动设备上的过渡动画 */
-/* 移动端特殊处理 */
 @media (max-width: 768px) {
+  .site-header {
+    padding: 1rem;
+  }
+
+  .header-icons {
+    gap: 0.5rem;
+  }
+
+  .theme-toggle-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .service-card {
+    padding: 1rem;
+    min-height: 120px;
+  }
+
+  .service-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .service-name {
+    font-size: 0.9rem;
+  }
+
+  .service-description {
+    font-size: 0.8rem;
+  }
+
+  /* 页面过渡优化 */
   .page-transition {
     transform-origin: center center;
     -webkit-transform-origin: center center;
   }
-  
-  /* 扩展状态 - 使用更大尺寸和固定值确保覆盖 */
+
   .page-transition.lamp-show {
-    /* 移动端稍小以提高性能 */
     width: 50px;
     height: 70px;
   }
-  
-  /* 特别针对iOS处理 */
+
+  /* iOS 特定修复 */
   @supports (-webkit-touch-callout: none) {
     .page-transition {
-      /* iOS特定修复 */
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       -webkit-perspective: 1000;
@@ -67,37 +101,24 @@
   }
 }
 
-/* 淡出效果 */
-.page-transition.fade-out {
-  transition: opacity 1s ease;
-  -webkit-transition: opacity 1s ease;
-  opacity: 0 !important;
-}
-
-/* 添加触摸设备特定优化 */
-@media (pointer: coarse) {
-  .service-card {
-    padding: 0.8rem;
-    /* 更大的点击区域 */
-  }
-
-  .contact-button {
-    padding: 0.8rem 1.7rem;
-    /* 更大的点击区域 */
-  }
-}
-
 @media (max-width: 576px) {
-  .site-header {
-    padding: 1rem;
-  }
-
   .main-content {
     padding: 80px 1rem 100px;
   }
 
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .service-card {
+    padding: 0.8rem;
+    min-height: 100px;
+  }
+
+  .service-icon {
+    width: 32px;
+    height: 32px;
   }
 
   .site-title {
@@ -116,37 +137,75 @@
     flex-direction: column;
     width: 100%;
     max-width: 250px;
-    margin: 0 auto;
+    margin: 1rem auto 0;
+  }
+
+  .contact-button {
+    width: 100%;
+    justify-content: center;
   }
 
   .logo-section {
     width: 80%;
   }
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    top: 8px;
+    left: 8px;
+  }
 }
 
-/* 暗黑模式 */
+/* 触摸设备优化 */
+@media (pointer: coarse) {
+  .service-card {
+    min-height: 120px;
+    padding: 1rem;
+  }
+
+  .contact-button {
+    padding: 1rem 1.5rem;
+    min-height: 48px;
+  }
+
+  .theme-toggle-btn,
+  .icon-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* 暗黑模式适配 */
 @media (prefers-color-scheme: dark) {
   .service-card {
     background-color: rgba(30, 30, 40, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .service-card:hover {
     background-color: rgba(40, 40, 55, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .toast-message {
+    background-color: rgba(40, 40, 40, 0.95);
   }
 }
 
-/* 减少动画 */
+/* 减少动画偏好 */
 @media (prefers-reduced-motion: reduce) {
-
   .service-card,
   .contact-button,
   .icon-link,
-  .logo-small img {
+  .logo-small img,
+  .theme-toggle-btn {
     transition: none;
   }
 
   .service-card:hover,
-  .contact-button:hover {
+  .contact-button:hover,
+  .theme-toggle-btn:hover {
     transform: none;
   }
 
@@ -157,5 +216,26 @@
 
   .status-indicator {
     animation: none;
+  }
+
+  .page-transition {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .service-card {
+    border-width: 3px;
+    border-color: white;
+  }
+
+  .status-indicator {
+    border: 2px solid white;
+  }
+
+  .contact-button {
+    border-width: 3px;
   }
 }
