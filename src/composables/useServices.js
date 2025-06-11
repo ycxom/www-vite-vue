@@ -57,7 +57,7 @@ export function useServices() {
       name: 'CNCNet',
       description: 'CNCNet Server',
       url: 'https://cncnet.org/status',
-      icon: '/src/assets/images/mo-icon.png',
+      icon: './assets/images/mo-icon.png',
       iconType: 'image',
       iconSize: 32,
       iconAlt: 'CNCNet Logo'
