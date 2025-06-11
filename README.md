@@ -34,7 +34,7 @@
 │      Footer.vue           // 页脚组件
 │      HelloWorld.vue       // 示例组件
 │      LogoGlow.vue         // logo光效组件
-│      ServiceIcon.vue      // 服务图标组件
+│      IconComponent.vue      // 服务图标组件
 │      VideoBackground.vue  // 视频背景组件
 │
 └─composables               // 组合式API目录
@@ -45,7 +45,7 @@
 
 ### 卡片修改
 
-修改`ServiceIcon.vue`即可修改卡片跳转
+修改`IconComponent.vue`即可修改卡片跳转
 
 ---------
 主力，来自强大的Claude！
