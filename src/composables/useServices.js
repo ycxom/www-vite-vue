@@ -1,6 +1,9 @@
-// src/composables/useServices.js
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue'
 
+/**
+ * 服务管理可组合逻辑
+ * 管理服务配置、状态检查、品牌颜色等功能
+ */
 export function useServices() {
   // 品牌颜色配置
   const brandColors = {
@@ -12,7 +15,7 @@ export function useServices() {
     'qq': { light: '#1aad19', dark: '#159314' },
     'mail': { light: '#4285f4', dark: '#3366cc' },
     'rich_media_api': { light: '#9c27b0', dark: '#7b1fa2' }
-  };
+  }
 
   // 服务配置
   const services = ref([
@@ -22,7 +25,7 @@ export function useServices() {
       description: 'Media Streaming',
       url: 'https://ai.ycxom.top:8096',
       icon: 'jellyfin',
-      iconType: 'built-in' // 内置图标
+      iconType: 'built-in'
     },
     {
       id: 'blog',
@@ -54,10 +57,10 @@ export function useServices() {
       name: 'CNCNet',
       description: 'CNCNet Server',
       url: 'https://cncnet.org/status',
-      icon: '/src/assets/images/mo-icon.png', // 使用图片路径
-      iconType: 'image', // 图片类型
-      iconSize: 32, // 图标大小
-      iconAlt: 'CNCNet Logo' // 图片描述
+      icon: '/src/assets/images/mo-icon.png',
+      iconType: 'image',
+      iconSize: 32,
+      iconAlt: 'CNCNet Logo'
     },
     {
       id: 'rich_media_api',
@@ -67,106 +70,126 @@ export function useServices() {
       icon: 'rich_media_api',
       iconType: 'built-in'
     }
-  ]);
+  ])
 
-  const serviceStatus = ref({});
+  const serviceStatus = ref({})
 
-  // 获取图标配置
+  /**
+   * 获取图标配置
+   * @param {Object} service - 服务对象
+   * @returns {Object} 图标配置
+   */
   const getIconConfig = (service) => {
     const config = {
       type: service.icon,
       size: service.iconSize || 24,
       alt: service.iconAlt || service.name,
       imageClass: service.iconClass || ''
-    };
+    }
 
-    // 如果是图片类型，确保路径正确
+    // 处理图片路径
     if (service.iconType === 'image') {
-      // 处理相对路径
       if (service.icon.startsWith('/src/')) {
-        config.type = service.icon.replace('/src/', './src/');
+        config.type = service.icon.replace('/src/', './src/')
       }
     }
 
-    return config;
-  };
+    return config
+  }
 
-  // 检查是否是图片图标
+  /**
+   * 检查是否是图片图标
+   * @param {Object} service - 服务对象
+   * @returns {boolean} 是否为图片图标
+   */
   const isImageIcon = (service) => {
     return service.iconType === 'image' ||
       /\.(png|jpg|jpeg|gif|svg|webp|bmp|ico)$/i.test(service.icon) ||
       service.icon.startsWith('http') ||
       service.icon.startsWith('/') ||
-      service.icon.startsWith('./');
-  };
+      service.icon.startsWith('./')
+  }
 
-  // 获取服务品牌颜色
+  /**
+   * 获取服务品牌颜色
+   * @param {string} serviceId - 服务ID
+   * @param {string} theme - 主题类型
+   * @returns {string} 颜色值
+   */
   const getServiceColor = (serviceId, theme = 'light') => {
-    return brandColors[serviceId]?.[theme] || brandColors['mail'][theme];
-  };
+    return brandColors[serviceId]?.[theme] || brandColors['mail'][theme]
+  }
 
-  // 检查服务状态
+  /**
+   * 检查服务状态
+   */
   const checkServiceStatus = async () => {
     for (const service of services.value) {
       try {
-        // 跳过特殊协议的链接
+        // 跳过特殊协议链接
         if (service.url.startsWith('minecraft://') || service.url === '#') {
-          serviceStatus.value[service.id] = true;
-          continue;
+          serviceStatus.value[service.id] = true
+          continue
         }
 
-        // 简单的状态检查（实际项目中可能需要更复杂的检查）
-        serviceStatus.value[service.id] = Math.random() > 0.2;
+        // 模拟状态检查（实际项目中应该使用真实的API检查）
+        serviceStatus.value[service.id] = Math.random() > 0.2
       } catch (error) {
-        console.warn(`检查服务 ${service.name} 状态失败:`, error);
-        serviceStatus.value[service.id] = false;
+        console.warn(`检查服务 ${service.name} 状态失败:`, error)
+        serviceStatus.value[service.id] = false
       }
     }
-  };
+  }
 
-  // 复制到剪贴板函数
+  /**
+   * 复制到剪贴板
+   * @param {string} text - 要复制的文本
+   */
   const copyToClipboard = async (text) => {
     try {
       if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-        showToast(`已复制: ${text}`);
+        await navigator.clipboard.writeText(text)
+        showToast(`已复制: ${text}`)
       } else {
         // 回退方案
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.opacity = '0';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+        textArea.style.position = 'fixed'
+        textArea.style.opacity = '0'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
 
         try {
-          document.execCommand('copy');
-          showToast(`已复制: ${text}`);
+          document.execCommand('copy')
+          showToast(`已复制: ${text}`)
         } catch (err) {
-          console.error('复制失败:', err);
-          showToast('复制失败，请手动复制');
+          console.error('复制失败:', err)
+          showToast('复制失败，请手动复制')
         }
 
-        document.body.removeChild(textArea);
+        document.body.removeChild(textArea)
       }
     } catch (err) {
-      console.error('复制失败:', err);
-      showToast('复制失败，请手动复制');
+      console.error('复制失败:', err)
+      showToast('复制失败，请手动复制')
     }
-  };
+  }
 
-  // 显示提示条
+  /**
+   * 显示提示消息
+   * @param {string} message - 提示消息
+   */
   const showToast = (message) => {
-    // 移除已存在的 toast
-    const existingToast = document.querySelector('.toast-message');
+    // 移除已存在的toast
+    const existingToast = document.querySelector('.toast-message')
     if (existingToast) {
-      document.body.removeChild(existingToast);
+      document.body.removeChild(existingToast)
     }
 
-    const toast = document.createElement('div');
-    toast.className = 'toast-message';
-    toast.textContent = message;
+    const toast = document.createElement('div')
+    toast.className = 'toast-message'
+    toast.textContent = message
 
     // 添加样式
     Object.assign(toast.style, {
@@ -182,76 +205,80 @@ export function useServices() {
       zIndex: '10000',
       opacity: '0',
       transition: 'opacity 0.3s ease'
-    });
+    })
 
-    document.body.appendChild(toast);
+    document.body.appendChild(toast)
 
     requestAnimationFrame(() => {
-      toast.style.opacity = '1';
-      toast.classList.add('show');
+      toast.style.opacity = '1'
+      toast.classList.add('show')
 
       setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.classList.remove('show');
+        toast.style.opacity = '0'
+        toast.classList.remove('show')
+
         setTimeout(() => {
           if (document.body.contains(toast)) {
-            document.body.removeChild(toast);
+            document.body.removeChild(toast)
           }
-        }, 300);
-      }, 3000);
-    });
-  };
+        }, 300)
+      }, 3000)
+    })
+  }
 
-  // 处理服务点击
+  /**
+   * 处理服务点击
+   * @param {Object} service - 服务对象
+   * @returns {boolean} 是否允许默认行为
+   */
   const handleServiceClick = (service) => {
     if (service.isCopyOnly) {
-      copyToClipboard(service.copyValue || service.url);
-      return false; // 阻止默认行为
+      copyToClipboard(service.copyValue || service.url)
+      return false
     }
-    return true; // 允许默认行为
-  };
+    return true
+  }
 
-  // 检测设备类型
+  /**
+   * 检测设备类型
+   * @returns {Object} 设备信息
+   */
   const detectDevice = () => {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    const isAndroid = /Android/i.test(navigator.userAgent)
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
 
-    return { isMobile, isAndroid, isIOS };
-  };
+    return { isMobile, isAndroid, isIOS }
+  }
 
+  // 组件挂载时的初始化
   onMounted(() => {
     // 检查服务状态
-    checkServiceStatus();
-    const statusInterval = setInterval(checkServiceStatus, 60000);
+    checkServiceStatus()
+    const statusInterval = setInterval(checkServiceStatus, 60000)
 
-    // 检测移动设备并调整 Minecraft 服务
-    const { isMobile, isAndroid } = detectDevice();
-
+    // 检测移动设备并调整Minecraft服务
+    const { isMobile, isAndroid } = detectDevice()
     if (isMobile) {
-      const minecraftService = services.value.find(s => s.id === 'minecraft');
+      const minecraftService = services.value.find(s => s.id === 'minecraft')
       if (minecraftService) {
         if (isAndroid) {
-          // Android 设备保持原始链接
-          minecraftService.description = 'Tap to open MC';
+          minecraftService.description = 'Tap to open MC'
         } else {
-          // iOS 设备改为复制模式
-          minecraftService.url = '#';
-          minecraftService.isCopyOnly = true;
-          minecraftService.copyValue = 'mc.ycxom.top';
-          minecraftService.description = 'Tap to copy';
+          // iOS设备改为复制模式
+          minecraftService.url = '#'
+          minecraftService.isCopyOnly = true
+          minecraftService.copyValue = 'mc.ycxom.top'
+          minecraftService.description = 'Tap to copy'
         }
       }
     }
 
-    // 组件卸载时清理
-    const cleanup = () => {
-      clearInterval(statusInterval);
-    };
-
-    // 返回清理函数（如果在组合式函数外部使用）
-    return cleanup;
-  });
+    // 返回清理函数
+    return () => {
+      clearInterval(statusInterval)
+    }
+  })
 
   return {
     services,
@@ -264,5 +291,5 @@ export function useServices() {
     showToast,
     handleServiceClick,
     detectDevice
-  };
+  }
 }
