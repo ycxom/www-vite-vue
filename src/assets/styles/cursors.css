@@ -1,0 +1,56 @@
+/* 系统光标定义 */
+:root {
+    --cursor-pointer: pointer;
+    --cursor-help: help;
+    --cursor-work: wait;
+    --cursor-busy: wait;
+    --cursor-cross: crosshair;
+    --cursor-text: text;
+    --cursor-hand: pointer;
+    --cursor-unavailable: not-allowed;
+    --cursor-vert: ns-resize;
+    --cursor-horz: ew-resize;
+    --cursor-dgn1: nw-resize;
+    --cursor-dgn2: ne-resize;
+    --cursor-move: move;
+    --cursor-alternate: pointer;
+    --cursor-link: pointer;
+}
+
+/* 应用光标到元素 */
+html,
+body {
+    cursor: pointer;
+}
+
+a,
+.icon-link {
+    cursor: pointer !important;
+}
+
+button,
+.contact-button,
+.service-card {
+    cursor: pointer !important;
+}
+
+input[type="text"],
+textarea {
+    cursor: text !important;
+}
+
+.logo-container,
+.logo-small-wrapper,
+.logo-section {
+    cursor: pointer !important;
+}
+
+.disabled,
+:disabled {
+    cursor: not-allowed !important;
+}
+
+[title],
+.help {
+    cursor: help !important;
+}

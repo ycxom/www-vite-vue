@@ -1,0 +1,17 @@
+/* 字体定义 */
+@font-face {
+    font-family: 'Loliti';
+    src: url('../font/loliti.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    /* 优化字体加载性能 */
+}
+
+/* 全局字体样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Loliti', serif;
+}

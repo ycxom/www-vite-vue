@@ -33,11 +33,11 @@
 │      DotPattern.vue       // 点状图案组件
 │      Footer.vue           // 页脚组件
 │      HelloWorld.vue       // 示例组件
+│      IconComponent.vue    // 服务图标组件
 │      LogoGlow.vue         // logo光效组件
-│      IconComponent.vue      // 服务图标组件
 │      VideoBackground.vue  // 视频背景组件
 │
-└─composables               // 组合式API目录
+└─composables                // 组合式API目录
         useServices.js       // 服务相关逻辑
         useTheme.js          // 主题相关逻辑
         useTransition.js     // 过渡效果逻辑
