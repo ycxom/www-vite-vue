@@ -44,7 +44,7 @@ export function useTransition(options) {
     const colors = brandColors || {
       'jellyfin': { light: '#00a4dc', dark: '#0088b9' },
       'blog': { light: '#ff7eb9', dark: '#e65a9e' },
-      'alist': { light: '#42b983', dark: '#349e6d' },
+      'OpenList': { light: '#42b983', dark: '#349e6d' },
       'minecraft': { light: '#97c040', dark: '#7d9e36' },
       'cncnet': { light: '#ff5722', dark: '#e34b1e' },
       'qq': { light: '#1aad19', dark: '#159314' },
