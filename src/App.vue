@@ -1,6 +1,5 @@
 <template>
   <VideoBackground :videoSrc="videoSource">
-    <!-- 顶部导航 -->
     <header class="site-header" :class="getThemeClasses()">
       <div class="logo-small-wrapper">
         <AvoidanceIcon :avoidanceRadius="120" :maxDistance="40" :speedFactor="0.2" :returnFactor="0.1"
@@ -12,7 +11,6 @@
       </div>
 
       <div class="header-icons">
-        <!-- GitHub 链接 -->
         <a href="https://github.com/ycxom" target="_blank" class="icon-link" title="GitHub"
           @click.prevent="handleServiceClick($event, githubService)">
           <IconComponent type="github" :size="24" />
@@ -20,11 +18,9 @@
       </div>
     </header>
 
-    <!-- 点阵图案 -->
     <DotPattern :dotSize="2" dotColor="rgba(255, 255, 255, 0.3)" :spacing="20" :fadeDistance="100" :zIndex="2"
       :mouseRadius="120" :effectIntensity="0.9" />
 
-    <!-- 主要内容区 -->
     <div class="scrollable-container" :class="getThemeClasses()" :style="getThemeStyles()">
       <div class="main-content">
         <div class="text-section">
@@ -32,7 +28,6 @@
           <h2 class="site-subtitle">YCXOM's homepage.</h2>
           <p class="site-description">联系方式 | Contact information | 連絡先</p>
 
-          <!-- 联系按钮 -->
           <div class="contact-buttons">
             <button @click="handleContactClick($event, 'qq', 'https://qm.qq.com/q/TLckIaJGWk')"
               class="contact-button qq" :style="{ '--button-color': getServiceColor('qq') }">
@@ -47,7 +42,6 @@
             </button>
           </div>
 
-          <!-- 服务按钮区域 -->
           <div class="services-section">
             <h3 class="services-title">My Services</h3>
             <div class="services-grid">
@@ -60,25 +54,21 @@
                   'offline': !serviceStatus[service.id],
                   'copy-only': service.isCopyOnly
                 }">
-                <!-- 状态指示器 -->
                 <div class="status-indicator" :class="{
                   'online': serviceStatus[service.id],
                   'offline': !serviceStatus[service.id]
                 }" :title="serviceStatus[service.id] ? '在线' : '离线'"></div>
 
-                <!-- 服务图标 -->
                 <div class="service-icon-wrapper">
                   <IconComponent v-bind="getIconConfig(service)" class="service-icon"
                     :class="{ 'image-icon': isImageIcon(service) }" />
                 </div>
 
-                <!-- 服务信息 -->
                 <div class="service-info">
                   <div class="service-name">{{ service.name }}</div>
                   <div class="service-description">{{ service.description }}</div>
                 </div>
 
-                <!-- 复制指示器 -->
                 <div v-if="service.isCopyOnly" class="copy-indicator" title="点击复制">
                   <IconComponent type="copy" :size="16" />
                 </div>
@@ -87,24 +77,22 @@
           </div>
         </div>
 
-        <!-- Logo 区域 -->
         <div class="logo-section">
           <LogoGlow :logoSrc="logoSource" width="300px" glowColor="rgba(255, 192, 203, 0.5)" glowSize="60px"
             :springStrength="0.6" :damping="0.8" :maxStretch="5" :elasticity="0.7" :returnDuration="400" />
         </div>
       </div>
 
-      <!-- 页脚 -->
       <Footer class="footer" owner="YCXOM" icpNumber="2021017838" :theme="isDarkTheme ? 'dark' : 'light'" />
     </div>
 
-    <!-- 页面过渡效果组件 -->
     <div class="page-transition" ref="pageTransition" :class="{ 'dark-theme': isDarkTheme }"></div>
   </VideoBackground>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+// 合并了所有的 import 语句
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 // 导入组件
 import VideoBackground from './components/VideoBackground.vue'
@@ -186,4 +174,28 @@ const getServiceHoverColor = (serviceId) => {
   const color = getServiceColor(serviceId)
   return color + '20'
 }
+
+
+let originalTitle = '';
+
+const handleBlur = () => {
+  originalTitle = document.title;
+  document.title = '（╯‵□′）╯︵┴─┴ 快回来';
+};
+
+const handleFocus = () => {
+  if (originalTitle) {
+    document.title = originalTitle;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('blur', handleBlur);
+  window.addEventListener('focus', handleFocus);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('blur', handleBlur);
+  window.removeEventListener('focus', handleFocus);
+});
 </script>
