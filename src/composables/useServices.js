@@ -46,11 +46,11 @@ export function useServices() {
     {
       id: 'minecraft',
       name: 'Minecraft',
-      description: 'mc.ycxom.top',
-      url: 'minecraft://connect/mc.ycxom.top',
+      description: 'mc.ycxom.com',
+      url: 'https://mc.ycxom.com',
       icon: 'minecraft',
-      iconType: 'built-in',
-      noTransition: true
+      iconType: 'built-in'
+      // noTransition: true
     },
     {
       id: 'cncnet',
